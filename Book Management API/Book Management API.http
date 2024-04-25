@@ -1,6 +1,25 @@
-@Book_Management_API_HostAddress = http://localhost:5125
+@Book_Management_API_HostAddress = https://localhost:7004
+@Book_Management_API_HostAddress2 = https://localhost:7004
+@JWTtoken = ***
 
-GET {{Book_Management_API_HostAddress}}/weatherforecast/
-Accept: application/json
+###
+
+POST {{Book_Management_API_HostAddress}}/api/user/LogIn
+Content-Type: application/json
+
+{
+  "username": "povfriADM",
+  "password": "123456"
+}
+
+###
+
+PATCH {{Book_Management_API_HostAddress}}/api/user?userName=povfri&newRoleName=User
+Authorization: Bearer {{JWTtoken}}
+
+###
+
+GET {{Book_Management_API_HostAddress}}/api/user
+Authorization: Bearer {{JWTtoken}}
 
 ###

@@ -30,13 +30,15 @@ namespace Book_Management_API.Service
 
         }
 
-        public void Register(UserDto user)
+        public UserDto Register(CreateUserDto user)
         {
-            var newUser = CreateUser(user);
+            var newUser = CreateUser(new UserDto(user.Username, user.Password, RoleType.User));
             _userRepository.AddUser(newUser);
+
+            return new(newUser.Username, user.Password, newUser.Role);
         }
 
-        public void UpdateUserRole(string userName, UserRoleDto user)
+        public void UpdateUserRole(string userName, RoleType userRole)
         {
             var existingUser = _userRepository.GetUser(userName);
             if (existingUser == null)
@@ -44,9 +46,13 @@ namespace Book_Management_API.Service
                 throw new NotFoundErrorException("User not found");
             }
 
-            existingUser.Role = user.Role;
+            existingUser.Role = userRole;
             _userRepository.UpdateUser(existingUser);
         }
+
+        public List<DisplayUserDto> GetAllUsers() => _userRepository.GetAllUsers()
+                                                                 .Select( u => new DisplayUserDto(u.Username, u.Role.ToString()))
+                                                                 .ToList();
 
         public void DeleteUserAdminRole(string userName)
         {

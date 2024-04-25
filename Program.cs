@@ -1,5 +1,7 @@
 
+using Book_Management_API.Database;
 using Book_Management_API.Extension;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 namespace Book_Management_API
@@ -12,6 +14,10 @@ namespace Book_Management_API
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddDbContext<BookContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new() { Title = "Book Management API", Version = "v1" });

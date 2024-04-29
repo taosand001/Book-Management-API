@@ -1,6 +1,10 @@
 
 using Book_Management_API.Database;
 using Book_Management_API.Extension;
+using Book_Management_API.Interfaces.Repositories;
+using Book_Management_API.Interfaces.Services;
+using Book_Management_API.Repository;
+using Book_Management_API.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -18,6 +22,9 @@ namespace Book_Management_API
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddTransient<IJwtService, JwtService>();
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new() { Title = "Book Management API", Version = "v1" });

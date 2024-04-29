@@ -20,7 +20,7 @@ namespace Book_Management_API.Controllers
         }
 
         [HttpPost("SignUp")]
-        public ActionResult<UserDto> SingUp(CreateUserDto user)
+        public ActionResult<UserDto> SignUp(CreateUserDto user)
         {
             if (user is null) { return BadRequest(); }
 

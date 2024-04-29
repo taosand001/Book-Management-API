@@ -54,6 +54,8 @@ namespace Book_Management_API
                 });
             });
             builder.Services.AddJwtExtension(builder.Configuration);
+            builder.Services.AddScoped<IBookRepository, BookRepository>();
+            builder.Services.AddScoped<IBookService, BookService>();
 
             var app = builder.Build();
 

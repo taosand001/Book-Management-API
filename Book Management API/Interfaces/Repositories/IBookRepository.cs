@@ -7,7 +7,8 @@ namespace Book_Management_API.Interfaces.Repositories
         void Create(Book book);
         void Update(Book book);
         List<Book> GetAll();
-        void Get(int Id);
+        Book Get(int Id);
         void Delete(int Id);
+        Book GetByTitle(string title);
     }
 }

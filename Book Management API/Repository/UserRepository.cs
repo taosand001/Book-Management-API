@@ -30,5 +30,7 @@ namespace Book_Management_API.Repository
             _context.SaveChanges();
         }
 
+        public List<User> GetAllUsers() => _context.Users.ToList();
+
     }
 }

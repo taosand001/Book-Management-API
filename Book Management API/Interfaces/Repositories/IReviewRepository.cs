@@ -8,6 +8,6 @@ namespace Book_Management_API.Interfaces.Repositories
         void Update(Review review);
         void Delete(int id);
         public Review GetById(int id);
-        public List<Review> GetAll();
+        public List<Review> GetAll(int BookId);     
     }
 }

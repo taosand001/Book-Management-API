@@ -40,9 +40,9 @@ namespace Book_Management_API.Repository
             return _context.Reviews.FirstOrDefault(r => r.Id == id);
         }
 
-        public List<Review> GetAll()
+        public List<Review> GetAll(int BookId)
         {
-            return _context.Reviews.ToList();
+            return _context.Reviews.Where(bookid => bookid.BookId ==BookId ).ToList();
         }
     }
 }

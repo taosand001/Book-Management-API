@@ -11,8 +11,7 @@ namespace Book_Management_API.Model
         [ForeignKey("Book")]
         public int BookId { get; set; }
         public int Rating { get; set; }
-        public string Comment { get; set; }
-        [ForeignKey("User")]
-        public int UserId { get; set; }
+        public string Comment { get; set; }     
+        public string UserId { get; set; }
     }
 }

@@ -12,24 +12,31 @@ namespace Book_Management_API.Service
         {
             _reviewRepository = reviewRepository;
         }
-        public void CreateBookReviews(int bookId)
+        public void CreateBookReviews(Review review)
         {
-            throw new NotImplementedException();
+            _reviewRepository.Create(review);
         }
 
         public void DeleteBookReviews(int id)
         {
-            throw new NotImplementedException();
-        }
+            _reviewRepository.Delete(id);
+        }   
 
         public List<Review> GetAllReviews()
         {
-            throw new NotImplementedException();
+            return _reviewRepository.GetAll();
         }
 
-        public void UpdateBookReviews(int id)
+        public Review GetReviewById(int id)
         {
-            throw new NotImplementedException();
+            return _reviewRepository.GetById(id);
         }
+
+        public void UpdateBookReviews(Review review)
+        {             
+            _reviewRepository.Update(review);
+        }
+
+      
     }
 }

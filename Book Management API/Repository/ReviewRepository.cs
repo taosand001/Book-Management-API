@@ -40,7 +40,7 @@ namespace Book_Management_API.Repository
             return _context.Reviews.FirstOrDefault(r => r.Id == id);
         }
 
-        public IEnumerable<Review> GetAll()
+        public List<Review> GetAll()
         {
             return _context.Reviews.ToList();
         }

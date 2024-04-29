@@ -3,7 +3,7 @@
 namespace Book_Management_API.Data
 {
     [Serializable]
-    internal class ConflictErrorException : Exception
+    public class ConflictErrorException : Exception
     {
         public ConflictErrorException()
         {

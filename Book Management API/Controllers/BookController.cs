@@ -1,13 +1,16 @@
 ﻿using Book_Management_API.Data;
 using Book_Management_API.Dto;
 using Book_Management_API.Interfaces.Services;
+using Book_Management_API.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Book_Management_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BookController : ControllerBase
     {
         private readonly IBookService _bookService;
@@ -18,13 +21,14 @@ namespace Book_Management_API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(object))]
         [ProducesResponseType(StatusCodes.Status409Conflict, Type = typeof(string))]
         public IActionResult AddBook([FromBody] BookDto book)
         {
             try
             {
-                _bookService.Addbook(book);
+                _bookService.AddBook(book);
                 return Created("", new { message = "Book has been added" });
             }
             catch (ConflictErrorException Ex)
@@ -100,9 +104,9 @@ namespace Book_Management_API.Controllers
         }
 
         [HttpGet("filterBooks")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Book>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
-        public IActionResult FilterBooks([FromQuery] string title, [FromQuery] int rating = 0, [FromQuery] int publishYear = 0, [FromQuery] int limit = 0)
+        public IActionResult FilterBooks([FromQuery][Required] string title, [FromQuery] int rating = 0, [FromQuery] int publishYear = 0, [FromQuery] int limit = 0)
         {
             try
             {
@@ -116,6 +120,21 @@ namespace Book_Management_API.Controllers
             catch (Exception Ex)
             {
                 return BadRequest(Ex.Message);
+            }
+        }
+
+        [HttpGet("sortBooksByNumberOfReviews")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Book>))]
+        public IActionResult SortBooksByNumberOfReviews()
+        {
+            try
+            {
+                var books = _bookService.SortBooksByNumberOfReviews();
+                return Ok(books);
+            }
+            catch (Exception Ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, Ex.Message);
             }
         }
     }

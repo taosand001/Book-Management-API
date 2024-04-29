@@ -1,6 +1,10 @@
 
 using Book_Management_API.Database;
 using Book_Management_API.Extension;
+using Book_Management_API.Interfaces.Repositories;
+using Book_Management_API.Interfaces.Services;
+using Book_Management_API.Repository;
+using Book_Management_API.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -47,6 +51,8 @@ namespace Book_Management_API
                 });
             });
             builder.Services.AddJwtExtension(builder.Configuration);
+            builder.Services.AddScoped<IBookRepository, BookRepository>();
+            builder.Services.AddScoped<IBookService, BookService>();
 
             var app = builder.Build();
 

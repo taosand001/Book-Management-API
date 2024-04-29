@@ -91,7 +91,7 @@ namespace Book_Management_API.Service
 
         public List<Book> SortBooksByNumberOfReviews()
         {
-            return _bookRepository.GetAll().OrderByDescending(book => book.Reviews.Count()).ToList();
+            return _bookRepository.GetAll().OrderByDescending(b => b.Reviews.Count).ToList();
         }
     }
 }

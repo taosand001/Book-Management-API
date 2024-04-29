@@ -15,7 +15,7 @@ namespace Book_Management_API.Service
         {
             _bookRepository = bookRepository;
         }
-        public void Addbook(BookDto book)
+        public void AddBook(BookDto book)
         {
             if (book is null)
             {
@@ -91,7 +91,7 @@ namespace Book_Management_API.Service
 
         public List<Book> SortBooksByNumberOfReviews()
         {
-            throw new NotImplementedException();
+            return _bookRepository.GetAll().OrderByDescending(b => b.Reviews.Count).ToList();
         }
     }
 }

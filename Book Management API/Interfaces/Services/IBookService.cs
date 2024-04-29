@@ -5,7 +5,7 @@ namespace Book_Management_API.Interfaces.Services
 {
     public interface IBookService
     {
-        void Addbook(BookDto book);
+        void AddBook(BookDto book);
         void EditBook(int id, BookDto book);
         void DeleteBook(int id);
         Book GetBook(int id);

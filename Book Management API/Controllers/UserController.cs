@@ -44,12 +44,12 @@ namespace Book_Management_API.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPatch]
+        [HttpPatch("ChangeRole")]
         public ActionResult ChangeRole(string userName, string newRoleName)
         {
             if (string.IsNullOrEmpty(userName)) { return BadRequest(); }
             if (string.IsNullOrEmpty(newRoleName)) { return BadRequest(); }
-            if (!Enum.TryParse<RoleType>(newRoleName, out RoleType roleType)){ return BadRequest(); }
+            if (!Enum.TryParse(newRoleName, out RoleType roleType)){ return BadRequest(); }
 
             _userService.UpdateUserRole(userName, roleType);
 
@@ -57,7 +57,7 @@ namespace Book_Management_API.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet]
+        [HttpGet("GetAllUsers")]
         public ActionResult<List<DisplayUserDto>> GetAllUsers()
         {
             List<DisplayUserDto> usersDto = _userService.GetAllUsers();

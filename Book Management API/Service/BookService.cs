@@ -1,38 +1,92 @@
-﻿using Book_Management_API.Interfaces.Services;
+﻿using Book_Management_API.Data;
+using Book_Management_API.Dto;
+using Book_Management_API.Interfaces.Repositories;
+using Book_Management_API.Interfaces.Services;
 using Book_Management_API.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Book_Management_API.Service
 {
     public class BookService : IBookService
     {
-        public void Addbook(Book book)
+        private readonly IBookRepository _bookRepository;
+
+        public BookService(IBookRepository bookRepository)
         {
-            throw new NotImplementedException();
+            _bookRepository = bookRepository;
+        }
+        public void Addbook(BookDto book)
+        {
+            if (book is null)
+            {
+                throw new ArgumentNullException(nameof(book));
+            }
+            var existingBook = _bookRepository.GetByTitle(book.Title);
+            if (existingBook != null)
+            {
+                throw new ConflictErrorException("Book already exists");
+            }
+            var newBook = new Book
+            {
+                Title = book.Title,
+                Author = book.Author,
+                Year = book.Year,
+                Genre = book.Genre,
+                Reviews = new List<Review>()
+            };
+            _bookRepository.Create(newBook);
         }
 
-        public void DeleteBook(Book book)
+        public void DeleteBook(int id)
         {
-            throw new NotImplementedException();
+            var book = _bookRepository.Get(id);
+            if (book is null)
+            {
+                throw new NotFoundErrorException("Book not found");
+            }
+            _bookRepository.Delete(id);
         }
 
-        public void EditBook(Book book)
+        public void EditBook(int id, BookDto book)
         {
-            throw new NotImplementedException();
+            var existingBook = _bookRepository.Get(id);
+            if (existingBook is null)
+            {
+                throw new NotFoundErrorException("Book not found");
+            }
+            existingBook.Title = book.Title;
+            existingBook.Author = book.Author;
+            existingBook.Year = book.Year;
+            existingBook.Genre = book.Genre;
+            _bookRepository.Update(existingBook);
         }
 
-        public List<Book> FilterByPublication(int year)
+        public List<Book> FilterBooks(string title, int rating = 0, int publishYear = 0, int limit = 0)
         {
-            throw new NotImplementedException();
+            IQueryable<Book> books = _bookRepository.GetAll().AsQueryable();
+            if (!string.IsNullOrEmpty(title))
+            {
+                books = books.Where(b => b.Title.ToLower().Contains(title.ToLower()));
+            }
+            if (rating > 0)
+            {
+                books = books.Include(x => x.Reviews).Where(b => b.Reviews.Any(r => r.Rating == rating));
+            }
+            if (publishYear > 0)
+            {
+                books = books.Where(b => b.Year == publishYear);
+            }
+            return limit > 0 ? books.Take(limit).ToList() : books.ToList();
         }
 
-        public List<Book> FilterByRating(int rating)
+        public Book GetBook(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public List<Book> SearchBooks(string bookTitle)
-        {
-            throw new NotImplementedException();
+            var book = _bookRepository.Get(id);
+            if (book is null)
+            {
+                throw new NotFoundErrorException("Book not found");
+            }
+            return book;
         }
 
         public List<Book> SortBooksByNumberOfReviews()

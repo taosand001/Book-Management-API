@@ -1,12 +1,16 @@
-﻿using Book_Management_API.Model;
+﻿using Book_Management_API.Dto;
+using Book_Management_API.Model;
 
 namespace Book_Management_API.Interfaces.Services
 {
     public interface IReviewService
     {
-        void CreateBookReviews(int bookId);
-        void UpdateBookReviews(int id);
+        public void CreateBookReviews(ReviewDto review, string UserId);
+        public void UpdateBookReviews(ReviewDto review, int id, string UserId,string role);
         void DeleteBookReviews(int id);
-        List<Review> GetAllReviews();
+        List<Review> GetAllReviews(int BookId);
+        public Review GetReviewById(int id);
+
+
     }
 }

@@ -1,15 +1,15 @@
-﻿using Book_Management_API.Model;
+﻿using Book_Management_API.Dto;
+using Book_Management_API.Model;
 
 namespace Book_Management_API.Interfaces.Services
 {
     public interface IBookService
     {
-        void Addbook(Book book);
-        void EditBook(Book book);
-        void DeleteBook(Book book);
-        List<Book> SearchBooks(string bookTitle);
-        List<Book> FilterByRating(int rating);
-        List<Book> FilterByPublication(int year);
+        void Addbook(BookDto book);
+        void EditBook(int id, BookDto book);
+        void DeleteBook(int id);
+        Book GetBook(int id);
+        List<Book> FilterBooks(string title, int rating = 0, int publishYear = 0, int limit = 0);
         List<Book> SortBooksByNumberOfReviews();
     }
 }

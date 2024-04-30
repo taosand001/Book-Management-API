@@ -23,7 +23,7 @@ namespace Book_Management_API_Test.Tests
             serviceMock.Setup(s => s.Register(It.IsAny<CreateUserDto>())).Returns(user);
 
             //Act
-            var testResponse = sut.SingUp(new CreateUserDto(Username: "Username", Password: "Password"));
+            var testResponse = sut.SignUp(new CreateUserDto(Username: "Username", Password: "Password"));
             var okResult = Assert.IsType<OkObjectResult>(testResponse.Result);
             var returnedUser = Assert.IsType<UserDto>(okResult.Value);
 

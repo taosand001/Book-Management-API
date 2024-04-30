@@ -1,19 +1,23 @@
 @Book_Management_API_HostAddress = https://localhost:7004
 @Book_Management_API_HostAddress2 = https://localhost:5125
 @JWTtoken = ***
-@username = ***
-@password = ***
+@usernameLogIn = ***
+@passwordLogIn = ***
+@usernameSignUp = ***
+@passwordSignUp = ***
+@usernameToChange = ***
 // string Value (Admin or User)
 @roletype = ***
 
 ###
 
+//UserController
 POST {{Book_Management_API_HostAddress}}/api/user/SignUp
 Content-Type: application/json
 
 {
-  "username": {{username}},
-  "password": {{password}}
+  "username": "{{usernameSignUp}}",
+  "password": "{{passwordSignUp}}"
 }
 
 ###
@@ -22,18 +26,65 @@ POST {{Book_Management_API_HostAddress}}/api/user/LogIn
 Content-Type: application/json
 
 {
-  "username": {{username}},
-  "password": {{password}}
+  "username": "{{usernameLogIn}}",
+  "password": "{{passwordLogIn}}"
 }
 
 ###
 
-PATCH {{Book_Management_API_HostAddress}}/api/user?userName={{username}}&newRoleName={{roletype}}
+PATCH {{Book_Management_API_HostAddress}}/api/user/ChangeRole?userName={{usernameToChange}}&newRoleName={{roletype}}
 Authorization: Bearer {{JWTtoken}}
 
 ###
 
-GET {{Book_Management_API_HostAddress}}/api/user
+GET {{Book_Management_API_HostAddress}}/api/user/GetAllUsers
+Authorization: Bearer {{JWTtoken}}
+
+###
+
+// BookController
+@author = ***
+@title = ***
+@genre = ***
+@year = ***
+
+POST {{Book_Management_API_HostAddress}}/api/book
+Content-Type: application/json
+Authorization: Bearer {{JWTtoken}}
+
+{
+  "author": "{{author}}",
+  "title": "{{title}}",
+  "genre": "{{genre}}",
+  "year": {{year}}
+}
+
+###
+
+GET {{Book_Management_API_HostAddress}}/api/book/1
+Authorization: Bearer {{JWTtoken}}
+
+###
+
+PUT {{Book_Management_API_HostAddress}}/api/book/1
+Content-Type: application/json
+Authorization: Bearer {{JWTtoken}}
+
+{
+  "author": "{{author}}",
+  "title": "{{title}}",
+  "genre": "{{genre}}",
+  "year": {{year}}
+}
+
+###
+
+DELETE {{Book_Management_API_HostAddress}}/api/book/2
+Authorization: Bearer {{JWTtoken}}
+
+###
+
+GET {{Book_Management_API_HostAddress}}/api/book/filterBooks?title={{title}}
 Authorization: Bearer {{JWTtoken}}
 
 ###

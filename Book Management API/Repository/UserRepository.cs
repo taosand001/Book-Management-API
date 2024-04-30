@@ -15,7 +15,7 @@ namespace Book_Management_API.Repository
 
         public User GetUser(string userName)
         {
-            return _context.Users.FirstOrDefault(u => u.Username == userName) ?? new();
+            return _context.Users.FirstOrDefault(u => u.Username == userName);
         }
 
         public void AddUser(User user)

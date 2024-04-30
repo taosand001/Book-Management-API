@@ -1,6 +1,20 @@
 @Book_Management_API_HostAddress = https://localhost:7004
-@Book_Management_API_HostAddress2 = https://localhost:7004
+@Book_Management_API_HostAddress2 = https://localhost:5125
 @JWTtoken = ***
+@username = ***
+@password = ***
+// string Value (Admin or User)
+@roletype = ***
+
+###
+
+POST {{Book_Management_API_HostAddress}}/api/user/SignUp
+Content-Type: application/json
+
+{
+  "username": {{username}},
+  "password": {{password}}
+}
 
 ###
 
@@ -8,13 +22,13 @@ POST {{Book_Management_API_HostAddress}}/api/user/LogIn
 Content-Type: application/json
 
 {
-  "username": "povfriADM",
-  "password": "123456"
+  "username": {{username}},
+  "password": {{password}}
 }
 
 ###
 
-PATCH {{Book_Management_API_HostAddress}}/api/user?userName=povfri&newRoleName=User
+PATCH {{Book_Management_API_HostAddress}}/api/user?userName={{username}}&newRoleName={{roletype}}
 Authorization: Bearer {{JWTtoken}}
 
 ###

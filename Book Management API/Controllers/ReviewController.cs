@@ -23,7 +23,7 @@ namespace Book_Management_API.Controllers
 
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin, User")]
-        public IActionResult GetReview(int id)
+        public ActionResult GetReview(int id)
         {
 
             
@@ -43,15 +43,20 @@ namespace Book_Management_API.Controllers
 
         [HttpGet("GetBookReviews")]
         [Authorize]
-        public IActionResult GetAllReviews(int bookId)
+        public ActionResult GetAllReviews(int bookId)
         {
             var reviews = _reviewService.GetAllReviews(bookId);
-            return Ok(reviews);
+            if (reviews == null)
+                return NotFound();
+
+            double averageRating = reviews.Any() ? reviews.Average(r => r.Rating) : 0;
+            return Ok(new { AverageRating = averageRating, Reviews = reviews });
+            
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult AddReview(ReviewDto review)
+        public ActionResult AddReview(ReviewDto review)
         {
             var userClaims = User.Claims;
             var userIdClaim = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
@@ -87,7 +92,7 @@ namespace Book_Management_API.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public IActionResult UpdateReview(int id, ReviewDto review)
+        public ActionResult UpdateReview(int id, ReviewDto review)
         {
             var userClaims = User.Claims;
             var userIdClaim = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
@@ -128,7 +133,7 @@ namespace Book_Management_API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
-        public IActionResult DeleteReview(int id)
+        public ActionResult DeleteReview(int id)
         {
             _reviewService.DeleteBookReviews(id);
             return Ok();

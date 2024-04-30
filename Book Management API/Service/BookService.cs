@@ -61,7 +61,7 @@ namespace Book_Management_API.Service
             _bookRepository.Update(existingBook);
         }
 
-        public List<Book> FilterBooks(string title, int rating = 0, int publishYear = 0, int limit = 0)
+        public List<Book> FilterBooks(string title = "", int rating = 0, int publishYear = 0, int limit = 0)
         {
             IQueryable<Book> books = _bookRepository.GetAll().AsQueryable();
             if (!string.IsNullOrEmpty(title))

@@ -4,6 +4,7 @@ using Book_Management_API.Interfaces.Services;
 using Book_Management_API.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
 namespace Book_Management_API.Controllers
@@ -108,7 +109,7 @@ namespace Book_Management_API.Controllers
         [HttpGet("filterBooks")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Book>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
-        public IActionResult FilterBooks([FromQuery] string title = "", [FromQuery] int rating = 0, [FromQuery] int publishYear = 0, [FromQuery] int limit = 0)
+        public IActionResult FilterBooks([FromQuery][Required] string title, [FromQuery] int rating = 0, [FromQuery] int publishYear = 0, [FromQuery] int limit = 0)
         {
             try
             {

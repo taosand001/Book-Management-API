@@ -1,0 +1,6 @@
+id,BookId,Rating,Comment,UserId
+5,1,1,Donec posuere metus vitae ipsum. Aliquam non mauris.,1
+6,2,2,"Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam.",2
+7,3,3,Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus.,3
+8,4,4,Nunc nisl.,4
+9,5,5,"Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.",5

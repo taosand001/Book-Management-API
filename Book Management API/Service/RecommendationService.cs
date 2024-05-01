@@ -34,51 +34,20 @@ namespace Book_Management_API.Service
 
             var similarUserIds = similarityScores.Select(s => s.UserId).ToList();
 
-            // Fetch all reviews of similar users
             var reviewsOfSimilarUsers = allReviewsExceptCurrentUser
                 .Where(r => similarUserIds.Contains(r.UserId))
                 .ToList();
 
-            // Get the book IDs rated highly by similar users
             var recommendedBookIds = reviewsOfSimilarUsers
                 .Where(r => r.Rating >= 3)
                 .Select(r => r.BookId)
                 .Distinct()
                 .ToList();
 
-            // Fetch the books that are highly rated by similar users and not rated by the current user
             var recommendedBooks = _context.Books
                 .Where(b => recommendedBookIds.Contains(b.Id) && !_context.Reviews.Any(r => r.UserId == UserId && r.BookId == b.Id))
                 .ToList();
 
-
-            //var similarUsers = _context.Reviews
-            //    .Where(r => r.UserId != UserId)
-            //    .GroupBy(r => r.UserId)
-            //    .Select(r => new
-            //    {
-            //        UserId = r.Key,
-            //        Similarity = CalculateSimilarity(UserId, r.Key)
-            //    })
-            //    .OrderByDescending(s => s.Similarity)
-            //    .Take(5)
-            //    .ToList();
-
-
-
-            //var recommendedBookIds = similarUsers
-            //    .SelectMany(s => _context.Reviews
-            //       .Where(r => r.UserId == s.UserId && r.Rating >= 3)
-            //       .Select(r => r.BookId))
-            //    .Distinct()
-            //    .ToList();
-
-            //var userRatedBookIds = _context.Reviews
-            //    .Where(r => r.UserId == UserId)
-            //    .Select(r => r.BookId)
-            //    .ToList();
-
-            //var recommendedBooksList = _context.Books.Where(b => recommendedBookIds.Contains(b.Id) && !userRatedBookIds.Contains(b.Id)).ToList();
             return recommendedBooks;
         }
 

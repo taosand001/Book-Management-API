@@ -61,7 +61,7 @@ namespace Book_Management_API.Service
             _bookRepository.Update(existingBook);
         }
 
-        public List<Book> FilterBooks(string title, int rating = 0, int publishYear = 0, int limit = 0)
+        public List<Book> FilterBooks(string title = "", int rating = 0, int publishYear = 0, string genre = "", int limit = 0)
         {
             IQueryable<Book> books = _bookRepository.GetAll().AsQueryable();
             if (!string.IsNullOrEmpty(title))
@@ -75,6 +75,10 @@ namespace Book_Management_API.Service
             if (publishYear > 0)
             {
                 books = books.Where(b => b.Year == publishYear);
+            }
+            if (!string.IsNullOrEmpty(genre))
+            {
+                books = books.Where(b => b.Genre.ToLower().Contains(genre.ToLower()));
             }
             return limit > 0 ? books.Take(limit).ToList() : books.ToList();
         }

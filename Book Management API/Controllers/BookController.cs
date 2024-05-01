@@ -108,11 +108,15 @@ namespace Book_Management_API.Controllers
         [HttpGet("filterBooks")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Book>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
-        public IActionResult FilterBooks([FromQuery] string title = "", [FromQuery] int rating = 0, [FromQuery] int publishYear = 0, [FromQuery] string genre = "", [FromQuery] int limit = 0)
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        public IActionResult FilterBooks([FromQuery] string title = "", [FromQuery] int rating = 0, [FromQuery] int fromPublishYear = 0, [FromQuery] int toPublishYear = 0, [FromQuery] string genre = "", [FromQuery] int limit = 0)
         {
             try
             {
-                var books = _bookService.FilterBooks(title, rating, publishYear, genre, limit);
+                if (fromPublishYear > toPublishYear)
+                    return BadRequest("fromPublishYear should be less than toPublishYear");
+
+                var books = _bookService.FilterBooks(title, rating, fromPublishYear, toPublishYear, genre, limit);
                 return Ok(books);
             }
             catch (NotFoundErrorException Ex)

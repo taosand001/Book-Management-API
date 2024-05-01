@@ -61,26 +61,26 @@ namespace Book_Management_API.Service
             _bookRepository.Update(existingBook);
         }
 
-        public List<Book> FilterBooks(string title = "", int rating = 0, int publishYear = 0, string genre = "", int limit = 0)
+        public List<Book> FilterBooks(string title = "", int rating = 0, int fromPublishYear = 0, int toPublishYear = 0, string genre = "", int limit = 0)
         {
             IQueryable<Book> books = _bookRepository.GetAll().AsQueryable();
             if (!string.IsNullOrEmpty(title))
             {
-                books = books.Where(b => b.Title.ToLower().Contains(title.ToLower()));
+                books = books.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
             }
             if (rating > 0)
             {
                 books = books.Include(x => x.Reviews).Where(b => b.Reviews.Any(r => r.Rating == rating));
             }
-            if (publishYear > 0)
+            if (fromPublishYear > 0 && toPublishYear > 0)
             {
-                books = books.Where(b => b.Year == publishYear);
+                books = books.Where(b => b.Year >= fromPublishYear && b.Year <= toPublishYear);
             }
             if (!string.IsNullOrEmpty(genre))
             {
-                books = books.Where(b => b.Genre.ToLower().Contains(genre.ToLower()));
+                books = books.Where(b => b.Genre.Contains(genre, StringComparison.OrdinalIgnoreCase));
             }
-            return limit > 0 ? books.Take(limit).ToList() : books.ToList();
+            return limit > 0 ? [.. books.Take(limit)] : [.. books];
         }
 
         public Book GetBook(int id)

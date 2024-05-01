@@ -24,6 +24,7 @@ namespace Book_Management_API
             });
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IRecommendationService, RecommendationService>();
             builder.Services.AddTransient<IJwtService, JwtService>();
             builder.Services.AddSwaggerGen(c =>
             {

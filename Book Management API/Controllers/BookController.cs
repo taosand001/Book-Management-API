@@ -4,6 +4,7 @@ using Book_Management_API.Interfaces.Services;
 using Book_Management_API.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Book_Management_API.Controllers
 {
@@ -13,10 +14,12 @@ namespace Book_Management_API.Controllers
     public class BookController : ControllerBase
     {
         private readonly IBookService _bookService;
+        private readonly IRecommendationService _recommendationService;
 
-        public BookController(IBookService bookService)
+        public BookController(IBookService bookService, IRecommendationService recommendationService)
         {
             _bookService = bookService;
+            _recommendationService = recommendationService;
         }
 
         [HttpPost]
@@ -129,6 +132,22 @@ namespace Book_Management_API.Controllers
             try
             {
                 var books = _bookService.SortBooksByNumberOfReviews();
+                return Ok(books);
+            }
+            catch (Exception Ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, Ex.Message);
+            }
+        }
+
+        [HttpGet("GetRecommendedBooks")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Book>))]
+        public IActionResult GetRecommendedBooks()
+        {
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+            try
+            {
+                var books = _recommendationService.GetRecommendation(userIdClaim.Value);
                 return Ok(books);
             }
             catch (Exception Ex)

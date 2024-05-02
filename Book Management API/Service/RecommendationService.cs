@@ -46,6 +46,7 @@ namespace Book_Management_API.Service
 
             var recommendedBooks = _context.Books
                 .Where(b => recommendedBookIds.Contains(b.Id) && !_context.Reviews.Any(r => r.UserId == UserId && r.BookId == b.Id))
+                .Take(5)
                 .ToList();
 
             return recommendedBooks;

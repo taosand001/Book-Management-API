@@ -33,12 +33,6 @@ Content-Type: application/json
 ###
 
 PATCH {{Book_Management_API_HostAddress}}/api/user/ChangeRole?userName={{usernameToChange}}&newRoleName={{roletype}}
-  "username": "povfriADM",
-  "password": "123456"
-}
-
-###
-
 Authorization: Bearer {{JWTtoken}}
 
 ###
@@ -94,3 +88,6 @@ GET {{Book_Management_API_HostAddress}}/api/book/filterBooks?title={{title}}
 Authorization: Bearer {{JWTtoken}}
 
 ###
+
+GET {{Book_Management_API_HostAddress}}/api/book/GetRecommendedBooks
+Authorization: Bearer {{JWTtoken}}

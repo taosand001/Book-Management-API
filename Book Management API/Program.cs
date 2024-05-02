@@ -28,7 +28,7 @@ namespace Book_Management_API
                     var password = Environment.GetEnvironmentVariable("Password");
                     var database = Environment.GetEnvironmentVariable("Database");
                     var port = Environment.GetEnvironmentVariable("Port");
-                    var connectionString = "server={server};database={database};uid={userId};password={password};";
+                    var connectionString = $"server={server};database={database};uid={userId};password={password};port={port}";
                     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
                 }
                 else if (envName == "Development")

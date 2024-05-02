@@ -27,8 +27,8 @@ namespace Book_Management_API
                     var userId = Environment.GetEnvironmentVariable("User_Id");
                     var password = Environment.GetEnvironmentVariable("Password");
                     var database = Environment.GetEnvironmentVariable("Database");
-                    var port = Environment.GetEnvironmentVariable("Port");
-                    options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionConnection"));
+                    var connectionString = $"Server={server};Database={database};User ID={userId};Password={password};Trusted_Connection=True;MultipleActiveResultSets=true";
+                    options.UseSqlServer(connectionString);
                 }
                 else if (envName == "Development")
                 {

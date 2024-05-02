@@ -16,9 +16,9 @@ namespace Book_Management_API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Genre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(255)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(255)", nullable: false),
+                    Genre = table.Column<string>(type: "nvarchar(255)", nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -32,9 +32,9 @@ namespace Book_Management_API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(255)", nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "varbinary(255)", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(255)", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -50,8 +50,8 @@ namespace Book_Management_API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BookId = table.Column<int>(type: "int", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Comment = table.Column<string>(type: "nvarchar(255)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {

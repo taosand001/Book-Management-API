@@ -15,11 +15,10 @@ COPY ["Book Management API/Book Management API.csproj", "Book Management API/"]
 RUN dotnet restore "./Book Management API/Book Management API.csproj"
 COPY . .
 WORKDIR "/src/Book Management API"
-RUN dotnet build "./Book Management API.csproj" -c %BUILD_CONFIGURATION% -o /app/build
+RUN dotnet build "./Book Management API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Book Management API.csproj" -c %BUILD_CONFIGURATION% -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Book Management API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

@@ -15,12 +15,25 @@ namespace Book_Management_API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddDbContext<BookContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                if (envName == "Production")
+                {
+                    var server = Environment.GetEnvironmentVariable("Server");
+                    var userId = Environment.GetEnvironmentVariable("User_Id");
+                    var password = Environment.GetEnvironmentVariable("Password");
+                    var database = Environment.GetEnvironmentVariable("Database");
+                    var port = Environment.GetEnvironmentVariable("Port");
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionConnection"));
+                }
+                else if (envName == "Development")
+                {
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                }
             });
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -66,6 +79,14 @@ namespace Book_Management_API
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+            }
+
+            if (app.Environment.IsProduction())
+            {
+                using var scope = app.Services.CreateScope();
+
+                var db = scope.ServiceProvider.GetRequiredService<BookContext>();
+                db.Database.Migrate();
             }
 
             app.UseHttpsRedirection();

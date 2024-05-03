@@ -7,6 +7,7 @@ using Book_Management_API.Repository;
 using Book_Management_API.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using static Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace Book_Management_API
 {
@@ -36,10 +37,15 @@ namespace Book_Management_API
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
                 }
             });
-            builder.Services.AddHttpsRedirection(options =>
+
+            if (!builder.Environment.IsDevelopment())
             {
-                options.HttpsPort = 443;
-            });
+                builder.Services.AddHttpsRedirection(options =>
+                {
+                    options.RedirectStatusCode = Status308PermanentRedirect;
+                    options.HttpsPort = 443;
+                });
+            }
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IRecommendationService, RecommendationService>();

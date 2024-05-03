@@ -36,6 +36,10 @@ namespace Book_Management_API
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
                 }
             });
+            builder.Services.AddHttpsRedirection(options =>
+            {
+                options.HttpsPort = 443;
+            });
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IRecommendationService, RecommendationService>();
@@ -73,6 +77,10 @@ namespace Book_Management_API
             builder.Services.AddScoped<IBookService, BookService>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
+
+            builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{envName}.json", optional: true, reloadOnChange: true);
 
             var app = builder.Build();
 

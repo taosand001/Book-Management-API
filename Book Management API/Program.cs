@@ -94,6 +94,7 @@ namespace Book_Management_API
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseHttpsRedirection();
             }
 
             if (app.Environment.IsProduction())
@@ -104,7 +105,7 @@ namespace Book_Management_API
                 db.Database.Migrate();
             }
 
-            app.UseHttpsRedirection();
+
 
             app.UseAuthorization();
 

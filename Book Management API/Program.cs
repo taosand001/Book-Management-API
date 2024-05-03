@@ -5,6 +5,7 @@ using Book_Management_API.Interfaces.Repositories;
 using Book_Management_API.Interfaces.Services;
 using Book_Management_API.Repository;
 using Book_Management_API.Service;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using static Microsoft.AspNetCore.Http.StatusCodes;
@@ -94,7 +95,6 @@ namespace Book_Management_API
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-                app.UseHttpsRedirection();
             }
 
             if (app.Environment.IsProduction())
@@ -105,7 +105,12 @@ namespace Book_Management_API
                 db.Database.Migrate();
             }
 
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedProto
+            });
 
+            app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
